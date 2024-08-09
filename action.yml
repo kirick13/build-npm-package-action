@@ -17,6 +17,7 @@ runs:
         else
           echo "NPM_TAG=latest" >> $GITHUB_ENV
         fi
+      shell: bash
     - uses: actions/setup-node@v4
       with:
         node-version: 20
@@ -25,7 +26,10 @@ runs:
       with:
         bun-version: 1.1.21
     - run: bun install
+      shell: bash
     - run: bun run publish:npm --access public --provenance --tag ${{ env.NPM_TAG }}
+      shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
     - run: bun run redis:down || true
+      shell: bash
