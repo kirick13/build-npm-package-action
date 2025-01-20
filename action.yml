@@ -4,6 +4,14 @@ inputs:
   npm-token:
     description: 'NPM token.'
     required: true
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '22'
+  bun-version:
+    description: 'Bun version to use'
+    required: false
+    default: '1.1.43'
 runs:
   using: "composite"
   steps:
@@ -20,11 +28,11 @@ runs:
       shell: bash
     - uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: ${{ inputs.node-version }}
         registry-url: https://registry.npmjs.org/
     - uses: oven-sh/setup-bun@v2
       with:
-        bun-version: 1.1.43
+        bun-version: ${{ inputs.bun-version }}
     - run: bun install --frozen-lockfile
       shell: bash
     - run: bun run publish:npm --access public --provenance --tag ${{ env.NPM_TAG }}
